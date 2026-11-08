@@ -64,13 +64,14 @@ public final class ChatRuleWatcher implements ClientModInitializer {
             if (sender == null || message == null) return;
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.player == null) return;
-            if (sender.getId() != null && sender.getId().equals(client.player.getUuid())) return;
+            if (sender.id() != null && sender.id().equals(client.player.getUuid())) return;
             String raw = message.getString();
             String normalized = normalize(raw);
             if (normalized.isBlank()) return;
 
-            String rule = detectRule(sender.getName(), raw, normalized, receptionTimestamp == null ? Instant.now() : receptionTimestamp);
-            if (rule != null) notifyModerator(sender.getName(), rule, raw);
+            String rule = detectRule(sender.name(), raw, normalized,
+    receptionTimestamp == null ? Instant.now() : receptionTimestamp);
+            if (rule != null) notifyModerator(sender.name(), rule, raw);
         });
     }
 
